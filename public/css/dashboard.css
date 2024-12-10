@@ -33,3 +33,18 @@ body {
     color: white;
 
 }
+
+.tableLocation {
+
+    margin-top: 3em;
+    border-radius: 10px;
+    background-color: white;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+
+.titleMonthly {
+
+    border-bottom: 1px solid black;
+
+}

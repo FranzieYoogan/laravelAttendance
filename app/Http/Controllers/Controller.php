@@ -137,23 +137,37 @@ class Controller
     }
 
     public function showGraph() {
+        // Get the current date and month
         $currentDate = date("Y-m-d");
+        $currentMonth = date("m", strtotime($currentDate));
+        $currentYear = date("Y", strtotime($currentDate)); // Get the current year
+        
+        // Total number of employees
         $total = DB::table('employee')->count();
-
+        
+        // Get the schedule data only for the current month and year using Query Builder
+        $employeesMonth = DB::table('scheduleTime')
+            ->whereYear('scheduleDate', $currentYear) // Filter by current year
+            ->whereMonth('scheduleDate', $currentMonth) // Filter by current month
+            ->get(); // Get data for this month only
+    
+        // Get the count of on-time employees
         $ontime = DB::table('scheduleTime')
                     ->where("scheduleDate", $currentDate)
                     ->where("scheduleOntime", 's')
                     ->count();
     
+        // Get the count of late employees
         $late = DB::table('scheduleTime')
                   ->where("scheduleDate", $currentDate)
                   ->where("scheduleOntime", 'n')
                   ->count();
     
-        // Debugging: Log values to check
+        // Log the values to check
         \Log::info('Ontime: ' . $ontime);
         \Log::info('Late: ' . $late);
-    
+        
+        // Set default values if counts are zero
         if ($ontime == 0 && $late == 0) {
             $ontime = 0;
             $late = 0;
@@ -163,11 +177,19 @@ class Controller
             $late = 0;
         }
     
-        // Debugging: Log again before returning the view
+        // Log values before returning to view
         \Log::info('Returning to view with: OnTime: ' . $ontime . ', Late: ' . $late);
     
-        return view('/dashboard', ['ontime' => $ontime, 'late' => $late,'total' => $total]);
+        // Return view with filtered data
+        return view('/dashboard', [
+            'ontime' => $ontime,
+            'late' => $late,
+            'total' => $total,
+            'allEmployees' => $employeesMonth // Pass the filtered data
+        ]);
     }
+    
+    
     
     
     

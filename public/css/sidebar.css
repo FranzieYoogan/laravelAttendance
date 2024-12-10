@@ -5,6 +5,7 @@
     border: 2px solid white;
 }
 
+
 .menuStyle {
 
     background-color: #030816;
@@ -20,6 +21,12 @@
 }
 
 .spanStyle {
+
+    color: white;
+
+}
+
+.anchorStyle {
 
     color: white;
 

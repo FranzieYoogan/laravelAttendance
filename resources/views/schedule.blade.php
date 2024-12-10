@@ -18,22 +18,17 @@
 
     <div class="p-4 sm:ml-64" id="divAll">
 
-   <section>
+   <section class="tableLocation">
 
-    <div>
-        <h1 class="titleStyle">Schedules</h1>
-    </div>
-   
     <section class="containerItems">
 
-        <div>
-
-            <button type="button" id="newForm" onclick="newForm()" class="buttonStyle text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><img class="imgStyle" src="{{asset('/icons/plus.png')}}" alt=""> New</button>
-
-        </div>
+        
          
 
-<div class="relative overflow-x-auto">
+<div class="divTable relative overflow-x-auto">
+    <h1 class="titleStyle">Schedules</h1>
+    <button type="button" id="newForm" onclick="newForm()" class="buttonStyle text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><img class="imgStyle" src="{{asset('/icons/plus.png')}}" alt=""> New</button>
+
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
