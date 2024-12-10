@@ -1,0 +1,35 @@
+body {
+
+    background-color: #bdbdbd;
+}
+
+.divEmployees {
+
+    background-color: gray;
+
+}
+
+.allItems {
+
+    display: flex;
+    justify-content: center;
+
+}
+
+.divTotal {
+
+    background-color: white;
+    display: flex;
+    gap: 1em;
+    height: 10%;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 3em;
+    background-color: #030816;
+}
+
+.titleTotal {
+
+    color: white;
+
+}

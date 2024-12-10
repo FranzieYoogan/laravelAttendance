@@ -1,0 +1,20 @@
+.anchorPosition {
+
+    display: flex;
+    justify-content: right;
+
+}
+
+.navStyle {
+
+    background-color: #030816;
+    border-bottom: 2px solid white;
+
+}
+
+.spanStyle {
+
+    color: white;
+    font-weight: 900;
+
+}

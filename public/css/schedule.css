@@ -1,0 +1,84 @@
+.titleStyle {
+
+    font-size: 30px;
+
+}
+
+body {
+
+    background-color: #bdbdbd;
+
+}
+
+.imgStyle {
+
+    width: 20px;
+}
+
+.buttonStyle {
+
+    display: flex;
+    gap: 1em;
+
+}
+
+.containerItems {
+
+    background-color: white;
+    box-shadow: 0px 0px 2px 0px black;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+
+
+
+/* form  */
+
+.buttonClose {
+
+    background-color: #bdbdbd !important;
+    display: flex;
+    gap: 0.3em;
+    z-index: 60 !important;
+
+}
+
+.buttonClose:hover {
+
+    background-color: #8b8a8a !important;
+
+}
+
+
+.formStyle {
+
+    transition: 1s;
+    display: flex;
+    opacity: 1;
+    justify-content: center;
+
+}
+
+.divForm {
+
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    position: fixed;
+    bottom: 35%;
+
+}
+
+.inputStyle {
+
+    width: 400px;
+
+}
+
+.divButton {
+
+    display: flex;
+    justify-content: space-between;
+
+}

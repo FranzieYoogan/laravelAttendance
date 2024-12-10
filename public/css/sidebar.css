@@ -1,0 +1,32 @@
+.logoStyle {
+
+    width: 100px;
+    border-radius: 100px;
+    border: 2px solid white;
+}
+
+.menuStyle {
+
+    background-color: #030816;
+    border-right: 2px solid white;
+}
+
+.containerLogo {
+
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1em;
+
+}
+
+.spanStyle {
+
+    color: white;
+
+}
+
+.anchorStyle:hover {
+
+    background-color: black;
+
+}

@@ -1,0 +1,50 @@
+.logoStyle {
+
+    border-radius: 90px;
+
+}
+
+.buttonStyle {
+
+    background-color: black !important;
+    transition: 1s;
+}
+
+.buttonStyle:hover, .buttonStyle:active, .buttonStyle:focus {
+
+    background-color: transparent !important;
+    color: black !important;
+    border: 1px solid black !important;
+}
+
+.inputStyle {
+
+    border: 1px solid gray !important;
+    transition: 1s;
+}
+
+.inputStyle:hover, .inputStyle:active, .inputStyle:focus {
+
+    border:  1px solid black !important;
+    box-shadow: none !important;
+    outline: none !important;
+
+}
+
+.forgotStyle {
+
+    color: black !important;
+    transition: 1s;
+}
+
+.forgotStyle:hover {
+
+    border-bottom: 1px solid black;
+
+}
+
+.alert {
+
+    margin-top: 1em;
+
+}

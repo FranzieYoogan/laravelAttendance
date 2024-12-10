@@ -1,0 +1,19 @@
+.logoStyle {
+
+    border-radius: 90px;
+
+}
+
+.navStyle {
+
+    border-bottom: 2px solid black;
+
+}
+
+.anchorStyle:hover {
+
+color: black;
+border-bottom: 1px solid black;
+border-radius: 0px;
+
+}
