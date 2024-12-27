@@ -48,11 +48,10 @@
             </tr>
         </thead>
         <tbody>
+            @foreach ($employees as $item)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                
-                @foreach ($employees as $item) 
-                   
-               
+
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$item->employeeName}}
                 </th>
@@ -81,9 +80,9 @@
 
                 </td>
 
-                 @endforeach 
+              
             </tr>
-            
+            @endforeach 
         </tbody>
     </table>
 </div>

@@ -106,7 +106,6 @@ class Controller
     
 
     public function attendanceLogin(Request $request) {
-
         $email = $request->input('email');
         $password = $request->input('password');
         $currentTime = date("H:i:s");
@@ -115,40 +114,58 @@ class Controller
         $error2 = "";
         $registered = "";
     
-        // Correct the SQL query
+        // Retrieve employees and schedules
         $employees = DB::select("SELECT employeeEmail, employeePassword, employeeTimein FROM employee");
         $schedule = DB::select("SELECT scheduleDate, scheduleEmail FROM scheduleTime");
     
-        // Iterate through the schedule
-        foreach ($schedule as $time) {
-            if ($time->scheduleEmail == $email && $time->scheduleDate != $currentDate) {
-                // Now we loop through employees to check credentials
-                foreach ($employees as $employee) {
-        
-                    // Check if email and password match
-                    if ($employee->employeeEmail != $email || $employee->employeePassword != $password) {
-                        $error = true;
-                        return view('/attendancelogin', ['error' => $error]);
-                    } else {
-                        // Check if the employee's email and password match and if they are on time
-                        if ($employee->employeeEmail == $email && $employee->employeePassword == $password && $currentTime <= $employee->employeeTimein) {
-                            DB::insert("INSERT INTO scheduleTime (`scheduleOntime`, `scheduleDate`, `scheduleEmail`, `scheduleTIme`) VALUES (?, ?, ?, ?)", ['s', $currentDate, $email, $currentTime]);
-                            $registered = true;
-                            return view('/attendancelogin', ['registered' => $registered]);
-                        } else if ($employee->employeeEmail == $email && $employee->employeePassword == $password && $currentTime > $employee->employeeTimein) {
-                            DB::insert("INSERT INTO scheduleTime (`scheduleOntime`, `scheduleDate`, `scheduleEmail`, `scheduleTIme`) VALUES (?, ?, ?, ?)", ['n', $currentDate, $email, $currentTime]);
-                            $registered = true;
-                            return view('/attendancelogin', ['registered' => $registered]);
+        // Variable to track if a valid match is found
+        $isValidEmployee = false;
+    
+        // Loop through employees to check for valid credentials
+        foreach ($employees as $employee) {
+            if ($employee->employeeEmail == $email) {
+                // If email matches, check password
+                if ($employee->employeePassword == $password) {
+                    // If email and password are correct, now check the schedule
+                    $isValidEmployee = true;
+    
+                    // Check if the employee has already checked in today
+                    foreach ($schedule as $time) {
+                        if ($time->scheduleEmail == $email && $time->scheduleDate == $currentDate) {
+                            $error2 = true;  // Employee already checked in today
+                            return view('/attendancelogin', ['error2' => $error2]);
                         }
                     }
+    
+                    // Check if the employee is on time or late
+                    if ($currentTime <= $employee->employeeTimein) {
+                        DB::insert("INSERT INTO scheduleTime (`scheduleOntime`, `scheduleDate`, `scheduleEmail`, `scheduleTIme`) VALUES (?, ?, ?, ?)", ['s', $currentDate, $email, $currentTime]);
+                        $registered = true;
+                        return view('/attendancelogin', ['registered' => $registered]);
+                    } else {
+                        DB::insert("INSERT INTO scheduleTime (`scheduleOntime`, `scheduleDate`, `scheduleEmail`, `scheduleTIme`) VALUES (?, ?, ?, ?)", ['n', $currentDate, $email, $currentTime]);
+                        $registered = true;
+                        return view('/attendancelogin', ['registered' => $registered]);
+                    }
+                } else {
+                    // If the password is incorrect
+                    $error = true;
+                    return view('/attendancelogin', ['error' => $error]);
                 }
             }
         }
     
-        // If we reach here, either the employee didn't match or some other issue
+        // If no matching employee found
+        if (!$isValidEmployee) {
+            $error = true;  // No employee with that email
+            return view('/attendancelogin', ['error' => $error]);
+        }
+    
+        // If we reach here, something went wrong (error handling)
         $error2 = true;
         return view('/attendancelogin', ['error2' => $error2]);
     }
+    
 
     public function showGraph() {
         // Get the current date and month
