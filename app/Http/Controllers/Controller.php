@@ -79,17 +79,31 @@ class Controller
     }
 
     public function newSchedule(Request $request) {
-
         $name = $request->input('name');
         $timein = $request->input('timein');
         $timeout = $request->input('timeout');
-
+    
+        // Check if there is any existing schedule with the same name or timein
+        $schedules = DB::select("SELECT scheduleName, scheduleTimein, scheduleTimeout FROM scheduletheone");
+    
+        foreach ($schedules as $schedule) {
+            if ($schedule->scheduleName == $name || $schedule->scheduleTimein == $timein && 
+            $schedule->scheduleTimeout == $timeout) {
+                // If a duplicate is found, return the error message to the view
+                return view('addschedule', ['error' => 'Duplicate schedule name or time. Please try again.']);
+            }
+        }
+    
+        // Insert the new schedule if no duplicates were found
         DB::insert("INSERT INTO `scheduletheone` (`scheduleName`, `scheduleTimein`, `scheduleTimeout`) 
-                VALUES (?, ?, ?)", [$name, $timein, $timeout]);
-
+                    VALUES (?, ?, ?)", [$name, $timein, $timeout]);
+    
+        // Redirect to the schedule page after successful insertion
         return redirect('/schedule');
-
     }
+    
+
+    
 
     public function attendanceLogin(Request $request) {
 
@@ -149,7 +163,7 @@ class Controller
         $employeesMonth = DB::table('scheduleTime')
             ->whereYear('scheduleDate', $currentYear) // Filter by current year
             ->whereMonth('scheduleDate', $currentMonth) // Filter by current month
-            ->get(); // Get data for this month only
+            ->paginate(5);
     
         // Get the count of on-time employees
         $ontime = DB::table('scheduleTime')
@@ -185,15 +199,174 @@ class Controller
             'ontime' => $ontime,
             'late' => $late,
             'total' => $total,
-            'allEmployees' => $employeesMonth // Pass the filtered data
+            'employeesMonth' => $employeesMonth // Pass the filtered data
         ]);
     }
+
+    public function showAttendance() {
+
+        $currentDate = date("Y-m-d");
+
+        $employeesDay = DB::table('scheduleTime')
+        ->where('scheduleDate', $currentDate) 
+        ->paginate(5); 
+
+        // Get the count of on-time employees
+        $ontime = DB::table('scheduleTime')
+                    ->where("scheduleDate", $currentDate)
+                    ->where("scheduleOntime", 's')
+                    ->count();
+    
+        
+        // $late = DB::table('scheduleTime')
+        //           ->where("scheduleDate", $currentDate)
+        //           ->where("scheduleOntime", 'n')
+        //           ->count();
+          
+        // Set default values if counts are zero
+        if ($ontime == 0) {
+            $ontime = 0;
+      
+        }
     
     
     
+        // Return view with filtered data
+        return view('/attendance', [
+            'ontime' => $ontime,
+            'employeesDay' => $employeesDay
+        ]);
+
+
+    }
+    
+    public function showLate() {
+
+        $currentDate = date("Y-m-d");
+
+        $employeesDay = DB::table('scheduleTime')
+        ->where('scheduleDate', $currentDate)
+        ->where('scheduleOntime','n') 
+        ->paginate(5); 
+
+        
+        $late = DB::table('scheduleTime')
+                   ->where("scheduleDate", $currentDate)
+                   ->where("scheduleOntime", 'n')
+                   ->count();
+          
+        // Set default values if counts are zero
+        if ($late == 0) {
+            $late = 0;
+      
+        }
     
     
     
+        // Return view with filtered data
+        return view('/late', [
+            'late' => $late,
+            'employeesDay' => $employeesDay
+        ]);
+
+    }
+
+    public function edit(Request $request) {
+
+        $id = $request->input('id');
+
+        return view('/edit2',['id' => $id]);
+
+    }
+
+    public function edit2(Request $request) {
+        // Get inputs from the request
+        $id = $request->input('id');
+        $name = $request->input('name');
+        $timein = $request->input('timein');
+        $timeout = $request->input('timeout');
+    
+        // Fetch all schedules
+        $schedules = DB::select("select * from scheduletheone");
+    
+        // Loop through each schedule to check for duplicates
+        foreach ($schedules as $schedule) {
+            // Fix the logic in the if condition
+            if ($schedule->scheduleName == $name && $schedule->scheduleTimein == $timein && $schedule->scheduleTimeout == $timeout) {
+                // If a match is found, return the error
+                return view('/edit2', ['error' => 'duplicate values']);
+            }
+        }
+    
+        // If no duplicate is found, update the schedule
+        DB::update(
+            "update scheduletheone set scheduleName = ?, scheduleTimein = ?, scheduleTimeout = ? where scheduleTheOneId = ?",
+            [$name, $timein, $timeout, $id]
+        );
+    
+        // Redirect to schedule page
+        return redirect('/schedule');
+    }
+
+    public function delete(Request $request) {
+
+        $id = $request->input('id');
+
+        DB::delete(`delete from scheduletheone where scheduleTheOneId = '$id' `);
+
+        return view('/schedule');
+
+    }
+
+    public function editEmployee(Request $request) {
+
+        $id = $request->input('id');
+        $time = DB::select('select scheduleTimein, scheduleTimeout from scheduletheone');
+        return view('editemployee2',['id' => $id, 'time' => $time]);
+
+
+    }
+
+    public function editEmployee2(Request $request) {
+
+        $id = $request->input('id');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $scheduleTimein = $request->input('scheduleTimein');
+        $scheduleTimeout = $request->input('scheduleTimeout');
+        
+
+        $employees = DB::select("select * from employee");
+
+        foreach ($employees as $employee) {
+
+            if($employee->employeeEmail != $email) {
+
+                DB::update("update employee set employeeName = '$name', employeeEmail = '$email',
+                employeePassword = '$password', employeeTimein = '$scheduleTimein', employeeTimeout = '$scheduleTimeout'
+                where employeeId = '$id' ");
+        
+                return redirect('/employees');
+
+            } else {
+
+                return view('editemployee2', ['error' => 'duplicate']);
+
+            }
+            
+        }
+    
+
+    }
+
+    public function deleteEmployees(Request $request) {
+
+        $id = $request->input('id');
+        DB::delete(`delete from employee where employeeId = '$id' `);
+
+        return view('/employees');
+    }
 
     public function logout() {
 

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-   
+    <link rel="stylesheet" href="{{asset('/css/edit2.css')}}">
     <link rel="stylesheet" href="{{asset('/css/schedule2.css')}}">
     <script src="{{asset('/js/addschedule.js')}}" defer></script>
 
@@ -21,9 +21,11 @@
    
     <section class="formStyle" id="formStyle">
 
-        <form action="/addschedule" method="post" class="divForm">
+        <form action="/edit2" method="post" class="divForm">
             @csrf
-    
+
+            <input class="valueId" name="id" type="text" value="{{$id}}">
+
             <div class="inputStyle mb-6">
                 <input placeholder="Name" name="name" type="text" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
             </div>

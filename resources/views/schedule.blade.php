@@ -56,8 +56,22 @@
                 <td class="px-6 py-4">
                     {{$item->scheduleTimein}}
                 </td>
-                <td class="px-6 py-4">
+                <td class="timeoutStyle px-6 py-4">
                     {{$item->scheduleTimeout}}
+
+                    <form action="/edit" method="post">
+                        @csrf
+                        <input name="id" class="passValue" type="text" value="{{$item->scheduleTheOneId}}">
+                       <button type="submit"> <img class="editIcon" src="{{asset('icons/edit.png')}}" alt=""></button>
+    
+                    </form>
+
+                    <form action="/delete" method="POST">
+                        @csrf
+                        <input name="id" class="passValue" type="text" value="{{$item->scheduleTheOneId}}">
+                        <button> <img class="editIcon" src="{{asset('/icons/delete.png')}}" alt=""> </button>
+
+                    </form>
                 </td>
 
                 @endforeach
@@ -73,6 +87,7 @@
 
    </section>
 
+  
 
 </div>
 

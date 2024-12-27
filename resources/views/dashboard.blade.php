@@ -73,14 +73,19 @@
               </thead>
               <tbody>
 
-                @foreach ($allEmployees as $item)
+                @foreach ($employeesMonth as $item)
                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                                     
                       <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           {{$item->scheduleEmail}}
                       </th>
                       <td class="px-6 py-4">
-                          {{$item->scheduleOntime}}
+                        @if ($item->scheduleOntime == "s")
+                            <h1 class="onTimeResult">ON TIME</h1>
+                        @else
+                            <h1 class="lateResult">LATE</h1>
+                        @endif
+                          
                       </td>
                       <td class="px-6 py-4">
                           {{$item->scheduleDate}}
@@ -92,6 +97,7 @@
                        
                   </tr>
                   @endforeach 
+                  {{$employeesMonth->links()}}
               </tbody>
           </table>
       </div>
@@ -122,7 +128,7 @@
           options: {
             title: {
               display: true,
-              text: "Employees Attendance"
+              text: "Attendance Daily"
             }
           }
         });

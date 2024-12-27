@@ -48,3 +48,27 @@ body {
     border-bottom: 1px solid black;
 
 }
+
+.onTimeResult {
+
+    color: white;
+    background-color: orange;
+    padding: 5px;
+    width: 100px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 900;
+
+}
+
+.lateResult {
+
+    color: white;
+    background-color: red;
+    padding: 5px;
+    width: 100px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 900;
+
+}

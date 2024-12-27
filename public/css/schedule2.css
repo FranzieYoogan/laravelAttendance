@@ -16,6 +16,12 @@ body {
     width: 20px;
 }
 
+.idStyle {
+
+    display: none;
+
+}
+
 .buttonStyle {
 
     display: flex;

@@ -62,8 +62,23 @@
                 <td class="px-6 py-4">
                     {{$item->employeeTimein}}
                 </td>
-                <td class="px-6 py-4">
+                <td class="timeoutStyle px-6 py-4">
                     {{$item->employeeTimeout}}
+
+                    <form action="/editemployee" method="post">
+                        @csrf
+                        <input name="id" class="passValue" type="text" value="{{$item->employeeId}}">
+                       <button type="submit"> <img class="editIcon" src="{{asset('icons/edit.png')}}" alt=""></button>
+    
+                    </form>
+
+                    <form action="/employees" method="POST">
+                        @csrf
+                        <input name="id" class="passValue" type="text" value="{{$item->employeeId}}">
+                        <button> <img class="editIcon" src="{{asset('/icons/delete.png')}}" alt=""> </button>
+
+                    </form>
+
                 </td>
 
                  @endforeach 

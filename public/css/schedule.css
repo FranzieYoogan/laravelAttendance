@@ -45,6 +45,31 @@ body {
     margin-top: 1em;
 }
 
+.timeoutStyle {
+
+    display: flex;
+    gap: 1em;
+
+}
+
+.editIcon {
+
+    width: 20px;
+    transition: 1s;
+}
+
+.editIcon:hover {
+
+    scale: 1.2;
+
+}
+
+.passValue {
+
+    display: none;
+
+}
+
 /* form  */
 
 .buttonClose {

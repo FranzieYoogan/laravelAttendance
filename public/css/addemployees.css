@@ -1,5 +1,18 @@
 .selectOut {
 
     margin-bottom: 1em;
+    border-radius: 5px;
+    margin-left: 1em;
+}
+
+.idStyle {
+
+    display: none;
+
+}
+
+.selectIn {
+
+    border-radius: 5px;
 
 }
